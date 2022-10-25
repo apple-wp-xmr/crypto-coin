@@ -1,7 +1,30 @@
 $(function () {
+    let isMenuOpen = false;
+    function disableScroll() {
+        if (!isMenuOpen) {
+            $('html, body').animate({ scrollTop: 0 }, 500, function () {
+                // disable scroll on body
+                $('body').css('overflow', 'hidden');
+            });
+            isMenuOpen = true;
+        } else {
+            $('body').css('overflow', 'auto');
+            isMenuOpen = false;
+        }
+    }
+
     $('.header__menu-btn').on('click', function () {
         $(this).toggleClass('header__menu-btn--active');
+        $('.header__menu').toggleClass('header__menu--active');
+        disableScroll();
     });
+
+    $('.header__menu-item').on('click', function () {
+        disableScroll();
+        $('.header__menu').removeClass('header__menu--active');
+        $('.header__menu-btn').removeClass('header__menu-btn--active');
+    });
+
     const countUp1 = new CountUp('count-one', 300, {
         startVal: 0,
         duration: 4,
